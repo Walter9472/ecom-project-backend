@@ -23,14 +23,15 @@ public class ProductController {
         this.service = service;
     }
 
-    @RequestMapping("/")
-    public String greet(){
-        return "Hello World";
-    }
 
     @GetMapping("/products")
     public List<Product> getAllProducts(){
         return service.getAllProducts();
 
+    }
+
+    @GetMapping("/product/{Id}")
+    public Product getProduct(int Id){
+        return service.getProductById(Id);
     }
 }
