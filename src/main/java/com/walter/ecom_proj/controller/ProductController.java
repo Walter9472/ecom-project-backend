@@ -3,6 +3,8 @@ package com.walter.ecom_proj.controller;
 import com.walter.ecom_proj.model.Product;
 import com.walter.ecom_proj.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,13 +24,20 @@ public class ProductController {
 
 
     @GetMapping("/products")
-    public List<Product> getAllProducts(){
-        return service.getAllProducts();
+    public ResponseEntity<List<Product>>  getAllProducts(){
+        return new ResponseEntity<>(service.getAllProducts(), HttpStatus.OK);
 
     }
 
     @GetMapping("/product/{Id}")
-    public Product getProduct(@PathVariable int Id){
-        return service.getProductById(Id);
+    public ResponseEntity<Product> getProduct(@PathVariable int Id){
+
+        Product product = service.getProductById(Id);
+
+        if(product != null)
+            return new ResponseEntity<>(product,HttpStatus.OK);
+        else
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
     }
 }
